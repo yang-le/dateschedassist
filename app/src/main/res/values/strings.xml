@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">时间计算助手</string>
+    <string name="action_settings">设置</string>
+    <string name="txt_start_date">选择起始日期</string>
+    <string name="txt_title">时间计算助手</string>
+    <string name="txt_skip_days">经过</string>
+    <string name="txt_tip_result">天</string>
+    <string name="btn_calc">计算</string>
+    <string name="txt_result"></string>
+</resources>
