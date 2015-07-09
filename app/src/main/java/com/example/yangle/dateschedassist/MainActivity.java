@@ -13,11 +13,14 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-public class MainActivity extends ActionBarActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
-    private TextView txtStartDate;
-    private TextView txtResultDate;
-    private EditText edtSkipDays;
-    private Button btnCalc;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
+
+public class MainActivity extends RoboActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+    @InjectView(R.id.txt_start_date) private TextView txtStartDate;
+    @InjectView(R.id.txt_result_date) private TextView txtResultDate;
+    @InjectView(R.id.edt_skip_days) private EditText edtSkipDays;
+    @InjectView(R.id.btn_calc) private Button btnCalc;
 
     private long startTime;
 
@@ -25,12 +28,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        txtStartDate= (TextView) findViewById(R.id.txt_start_date);
         txtStartDate.setOnClickListener(this);
-        btnCalc = (Button) findViewById(R.id.btn_calc);
         btnCalc.setOnClickListener(this);
-        txtResultDate = (TextView) findViewById(R.id.txt_result_date);
-        edtSkipDays = (EditText) findViewById(R.id.edt_skip_days);
     }
 
     @Override
@@ -63,7 +62,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 new DatePickerDialog(this, this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
                 break;
             case R.id.btn_calc:
-                int skipDays = Integer.parseInt(edtSkipDays.getText().toString());
+                int skipDays;
+                try {
+                    skipDays = Integer.parseInt(edtSkipDays.getText().toString());
+                } catch (Exception e) {
+                    skipDays = 0;
+                }
                 c.setTimeInMillis(startTime);
                 c.add(Calendar.DAY_OF_MONTH, skipDays);
                 txtResultDate.setText(c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DAY_OF_MONTH));
